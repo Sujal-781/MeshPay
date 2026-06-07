@@ -3,15 +3,17 @@ package com.sujal.mesh_pay;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ConcurrentHashMapDemo {
-    public static void main(String[] args) throws InterruptedException{
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+public class ConcurrentHashMapDemo implements Runnable{
 
-        Runnable task = () -> {
-            for(int i=0;i<1000;i++){
-                map.merge("count", 1, Integer::sum);
-            }
-        };
+    static ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+    public void run(){
+        for(int i=0;i<1000;i++){
+            map.merge("count", 1, Integer::sum);
+        }
+    }
+    public static void main(String[] args) throws InterruptedException{
+
+        ConcurrentHashMapDemo task = new ConcurrentHashMapDemo();
         Thread t1 = new Thread(task);
         Thread t2 = new Thread(task);
         Thread t3 = new Thread(task);
