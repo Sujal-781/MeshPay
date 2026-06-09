@@ -1,4 +1,4 @@
-package com.sujal.mesh_pay.entity;
+package com.sujal.mesh_pay.model;
 
 import jakarta.persistence.*;
 
