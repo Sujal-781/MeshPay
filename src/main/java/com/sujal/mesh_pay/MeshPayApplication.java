@@ -9,5 +9,4 @@ public class MeshPayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MeshPayApplication.class, args);
 	}
-
 }
