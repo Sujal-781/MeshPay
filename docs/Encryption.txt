@@ -14,3 +14,12 @@ Encrypted data is often encoded using Base64 for easier storage and transmission
 Although RSA can encrypt small files and messages directly, it is typically used in combination
 with symmetric algorithms like AES for larger data. In such hybrid encryption systems, RSA encrypts
 the AES key, while AES encrypts the actual data, providing both security and efficiency.
+
+AES in Java - Summary
+
+AES (Advanced Encryption Standard) is a symmetric-key encryption algorithm that uses the same secret
+key for encryption and decryption. It supports key sizes of 128, 192, and 256 bits and encrypts data
+in 128-bit blocks. Modern applications commonly use AES/GCM/NoPadding because it provides confidentiality,
+integrity, and authentication. In Java, AES encryption is implemented using the Cipher class, a SecretKey,
+and an Initialization Vector (IV). AES can be used to securely encrypt strings, files, passwords, and
+serializable objects, and is significantly faster than RSA for encrypting large amounts of data.
