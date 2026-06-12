@@ -1,0 +1,11 @@
+Hybrid Encryption for MeshPay
+
+RSA-2048 can encrypt only a small amount of data (approximately 245 bytes), making it unsuitable for
+directly encrypting large PaymentInstruction JSON payloads. To overcome this limitation, MeshPay uses
+hybrid encryption, where a randomly generated AES key is used to encrypt the entire payment payload,
+and the AES key itself is encrypted using the recipient's RSA public key.
+
+The encrypted AES key, encrypted payload, and initialization vector (IV) are then transmitted together.
+On the receiving side, the RSA private key decrypts the AES key, which is subsequently used to decrypt the
+payload. This approach combines the efficiency of AES for large data encryption with the secure key
+exchange capabilities of RSA and follows the same principle used in TLS/HTTPS communication.
