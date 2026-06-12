@@ -1,0 +1,16 @@
+RSA in Java – Summary
+
+RSA (Rivest–Shamir–Adleman) is an asymmetric encryption algorithm that uses a pair
+of keys: a public key for encryption and a private key for decryption. In Java,
+RSA keys can be generated using KeyPairGenerator, and the resulting PublicKey
+and PrivateKey objects can be stored in files using their encoded byte
+representation.
+
+To encrypt data, a Cipher object is initialized in ENCRYPT_MODE with the public key,
+while decryption uses DECRYPT_MODE with the private key. Since RSA operates on byte arrays,
+strings must be converted to bytes before encryption and reconstructed after decryption.
+Encrypted data is often encoded using Base64 for easier storage and transmission.
+
+Although RSA can encrypt small files and messages directly, it is typically used in combination
+with symmetric algorithms like AES for larger data. In such hybrid encryption systems, RSA encrypts
+the AES key, while AES encrypts the actual data, providing both security and efficiency.
