@@ -1,0 +1,46 @@
+
+MeshPay Cryptography — Documentation Summary
+
+Encryption Architecture
+MeshPay uses a hybrid RSA-OAEP + AES-GCM encryption scheme to secure every payment instruction
+transmitted over the Bluetooth mesh.
+
+Why Hybrid Encryption
+RSA-2048 can encrypt a maximum of ~245 bytes due to its mathematical constraints.
+A PaymentInstruction payload (VPAs, amount, timestamp, nonce, device ID, signature) exceeds this limit.
+To work around this, the payload is encrypted with a fresh AES-256 key, and only that key is encrypted
+with the receiver's RSA public key — a pattern known as hybrid encryption, identical to what TLS uses
+internally.
+
+Why AES-GCM Over AES-CBC
+AES-GCM provides authenticated encryption — it produces a 16-byte auth tag alongside the ciphertext that
+is cryptographically bound to every byte of the payload. If any bit is modified in transit
+(by a malicious mesh node or transmission error), decryption throws AEADBadTagException immediately.
+No corrupted data is ever returned.
+
+AES-CBC offers no such guarantee — a flipped bit produces silently corrupted plaintext with no error.
+In an offline mesh where payment packets hop through untrusted intermediate devices, silent corruption
+is unacceptable.
+
+Per-Transaction Key Generation
+A fresh AES-256 key and a 12-byte random nonce are generated for every transaction using SecureRandom.
+This means compromising one transaction's key reveals nothing about any other, providing forward secrecy
+at the transport layer.
+
+Encrypted Payload Structure
+Each transmitted bundle contains:
+
+json
+{
+  "encryptedKey": "<RSA-OAEP encrypted AES key>",
+  "iv":           "<12-byte GCM nonce>",
+  "ciphertext":   "<AES-GCM encrypted PaymentInstruction>",
+  "tag":          "<16-byte GCM auth tag>"
+}
+
+Security Guarantees
+Guarantee	            Mechanism
+Confidentiality	        AES-256-GCM encryption
+Integrity	            GCM auth tag — tamper causes immediate exception
+Key security	        RSA-2048-OAEP wrapping
+Forward secrecy	        Fresh AES key + nonce per transaction

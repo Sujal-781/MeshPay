@@ -9,3 +9,8 @@ The encrypted AES key, encrypted payload, and initialization vector (IV) are the
 On the receiving side, the RSA private key decrypts the AES key, which is subsequently used to decrypt the
 payload. This approach combines the efficiency of AES for large data encryption with the secure key
 exchange capabilities of RSA and follows the same principle used in TLS/HTTPS communication.
+
+Hybrid encryption is used because AES efficiently encrypts large payment payloads, while RSA securely
+exchanges the AES key between communicating systems. The recipient's RSA public key encrypts the AES key,
+and the corresponding private key stored on the recipient system decrypts it, allowing the payload to be
+securely recovered.
