@@ -32,7 +32,7 @@ public class MeshPacket {
     private Long createdAt; // epoch millis, when sender created the packet
 
     @NotBlank
-    private String cipherText; // base64(RSA-encrypted AES key + AES-GCM ciphertext)
+    private String ciphertext; // base64(RSA-encrypted AES key + AES-GCM ciphertext)
 
     public MeshPacket() {
     }
@@ -61,11 +61,11 @@ public class MeshPacket {
         this.createdAt = createdAt;
     }
 
-    public String getCipherText() {
-        return cipherText;
+    public String getCiphertext() {
+        return ciphertext;
     }
 
-    public void setCipherText(String cipherText) {
-        this.cipherText = cipherText;
+    public void setCiphertext(String ciphertext) {
+        this.ciphertext = ciphertext;
     }
 }
